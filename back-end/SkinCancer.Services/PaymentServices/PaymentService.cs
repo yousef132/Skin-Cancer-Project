@@ -80,7 +80,7 @@ namespace SkinCancer.Services.PaymentServices
                     throw new Exception("The clinic with the provided ID does not exist.");
                 }
 
-                var options = new SessionCreateOptions
+                var options = new Stripe.Checkout.SessionCreateOptions
                 {
                     SuccessUrl = $"{thisApiUrl}/api/payment/success?sessionId={{CHECKOUT_SESSION_ID}}",
                     CancelUrl = $"{s_wasmClientURL}/failed",
@@ -108,7 +108,7 @@ namespace SkinCancer.Services.PaymentServices
 
                 _logger.LogInformation($"Creating Stripe session with options: {JsonConvert.SerializeObject(options)}");
 
-                var service = new SessionService();
+                var service = new Stripe.Checkout.SessionService();
                 var session = await service.CreateAsync(options);
 
                 return session;

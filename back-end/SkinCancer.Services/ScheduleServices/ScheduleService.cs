@@ -8,6 +8,7 @@ using SkinCancer.Entities.Models;
 using SkinCancer.Entities.ModelsDtos.ScheduleDtos;
 using SkinCancer.Repositories.Interface;
 using SkinCancer.Repositories.Repository;
+using SkinCancer.Repositories.Specifications.Schedule;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -217,9 +218,13 @@ namespace SkinCancer.Services.ScheduleServices
         {
             try
             {
-                var schedules = _unitOfWork.SelectItem<Schedule>
-                    (s => s.ClinicId == clinicId && s.IsBooked, s => s.Clinic,
-                     s => s.Patient);
+                var specs = new ScheduleWithSpecifications(clinicId);
+                var schedules = await _unitOfWork.Reposirory<Schedule>().GetWithSpecificationsAllAsync(specs);
+
+
+				//var schedules = _unitOfWork.SelectItem<Schedule>
+    //                (s => s.ClinicId == clinicId && s.IsBooked, s => s.Clinic,
+    //                 s => s.Patient);
 
                 if (schedules == null || !schedules.Any())
                 {
@@ -244,10 +249,16 @@ namespace SkinCancer.Services.ScheduleServices
 
             try
             {
-                var schedules =  _unitOfWork.SelectItem<Schedule>(
-                 x => x.PatientId == patientId,
-                 x => x.Clinic,
-                 x => x.Patient);
+
+				var specs = new ScheduleWithSpecifications(patientId);
+				var schedules = await _unitOfWork.Reposirory<Schedule>().GetWithSpecificationsAllAsync(specs);
+
+
+
+				//var schedules =  _unitOfWork.SelectItem<Schedule>(
+    //             x => x.PatientId == patientId,
+    //             x => x.Clinic,
+    //             x => x.Patient);
 
 
                 /* var patientSchedules = _unitOfWork.SelectItem<Schedule>

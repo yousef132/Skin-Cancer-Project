@@ -33,18 +33,18 @@ namespace SkinCancer.Repositories.Repository
 
 
    
-        public async Task<TEntity> Include<TEntity>(string name, 
-            params Expression<Func<TEntity, object>>[] includes) where TEntity : Clinic
-        {
-            var query = _context.Set<TEntity>().AsQueryable();
+        //public async Task<TEntity> Include<TEntity>(string name, 
+        //    params Expression<Func<TEntity, object>>[] includes) where TEntity : Clinic
+        //{
+        //    var query = _context.Set<TEntity>().AsQueryable();
 
-            foreach (var include in includes)
-            {
-                query = query.Include(include);
-            }
+        //    foreach (var include in includes)
+        //    {
+        //        query = query.Include(include);
+        //    }
 
-            return await query.FirstOrDefaultAsync(e => e.Name == name);
-        }
+        //    return await query.FirstOrDefaultAsync(e => e.Name == name);
+        //}
 
         public async Task<bool> IsPatientRateSameClinicBefore(int clinicId, string patientId)
         {

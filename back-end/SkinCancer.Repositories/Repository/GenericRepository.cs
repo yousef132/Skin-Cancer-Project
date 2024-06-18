@@ -2,6 +2,7 @@
 using SkinCancer.Entities;
 using SkinCancer.Entities.Models;
 using SkinCancer.Repositories.Interface;
+using SkinCancer.Repositories.Specifications;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -42,5 +43,15 @@ namespace SkinCancer.Repositories.Repository
 
         public void Update(TEntity entity)
             => context.Set<TEntity>().Update(entity);
-    }
+
+
+
+		public async Task<TEntity> GetWithSpecificationsByIdAsync(Ispecification<TEntity> specs)
+			=> await ApplySpecs(specs).FirstOrDefaultAsync();
+
+		public async Task<IReadOnlyList<TEntity>> GetWithSpecificationsAllAsync(Ispecification<TEntity> specs)
+			=> await ApplySpecs(specs).ToListAsync();
+		private IQueryable<TEntity> ApplySpecs(Ispecification<TEntity> specs)
+			=> SpecificationEvaluater<TEntity>.GetQuery(context.Set<TEntity>(), specs);
+	}
 }
