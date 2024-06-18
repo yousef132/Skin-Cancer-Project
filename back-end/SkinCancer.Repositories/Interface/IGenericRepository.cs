@@ -1,4 +1,5 @@
 ﻿using SkinCancer.Entities.Models;
+using SkinCancer.Repositories.Specifications;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,6 +18,10 @@ namespace SkinCancer.Repositories.Interface
         void Update(TEntity entity);
         void Delete(TEntity entity);
         Task<TEntity> FirstOrDefaultAsync(Expression<Func<TEntity, bool>> predicate);
-    }
+
+
+		Task<TEntity> GetWithSpecificationsByIdAsync(Ispecification<TEntity> specs);
+		Task<IReadOnlyList<TEntity>> GetWithSpecificationsAllAsync(Ispecification<TEntity> specs);
+	}
 
 }
