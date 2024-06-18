@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "jS0rJzECGQ+U8b4QVUBfXYFDwy4nutruJ5s40cm2qxc=",
+  "Hash": "M0OP0pYcgBY8y2eycFSHNaruBS5j99Al1LlP7XVh+Lk=",
   "Source": "SkinCancer.Api",
   "BasePath": "_content/SkinCancer.Api",
   "Mode": "Default",
@@ -10,17 +10,17 @@
     {
       "Name": "SkinCancer.Api\\wwwroot",
       "Source": "SkinCancer.Api",
-      "ContentRoot": "D:\\AWork\\SkinCancerSharedRepository\\Skin-Cancer-Project\\back-end\\SkinCancer.Api\\wwwroot\\",
+      "ContentRoot": "D:\\Cloned Github Projects\\repos\\Skin-Canser\\Skin-Cancer-Project\\back-end\\SkinCancer.Api\\wwwroot\\",
       "BasePath": "_content/SkinCancer.Api",
       "Pattern": "**"
     }
   ],
   "Assets": [
     {
-      "Identity": "D:\\AWork\\SkinCancerSharedRepository\\Skin-Cancer-Project\\back-end\\SkinCancer.Api\\wwwroot\\detections\\393bb47e-584d-4975-8a1b-82d37c870836.png",
+      "Identity": "D:\\Cloned Github Projects\\repos\\Skin-Canser\\Skin-Cancer-Project\\back-end\\SkinCancer.Api\\wwwroot\\detections\\393bb47e-584d-4975-8a1b-82d37c870836.png",
       "SourceId": "SkinCancer.Api",
       "SourceType": "Discovered",
-      "ContentRoot": "D:\\AWork\\SkinCancerSharedRepository\\Skin-Cancer-Project\\back-end\\SkinCancer.Api\\wwwroot\\",
+      "ContentRoot": "D:\\Cloned Github Projects\\repos\\Skin-Canser\\Skin-Cancer-Project\\back-end\\SkinCancer.Api\\wwwroot\\",
       "BasePath": "_content/SkinCancer.Api",
       "RelativePath": "detections/393bb47e-584d-4975-8a1b-82d37c870836.png",
       "AssetKind": "All",
