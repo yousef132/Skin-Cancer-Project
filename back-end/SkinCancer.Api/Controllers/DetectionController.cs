@@ -4,6 +4,7 @@ using SkinCancer.Api.Extentions;
 using SkinCancer.Entities.Models;
 using SkinCancer.Entities.ModelsDtos.PatientDtos;
 using SkinCancer.Repositories.Interface;
+using SkinCancer.Repositories.Specifications.Detection;
 
 namespace SkinCancer.Api.Controllers
 {
@@ -63,7 +64,10 @@ namespace SkinCancer.Api.Controllers
 
 		[HttpPost("AddDiagnosis")]
 		public async Task<IActionResult> AddDiagnosis(int Id, string Diagonosis) {
-			var detectionData = _unitOfWork.SelectItem<DetectionData>(x => x.Id == Id).FirstOrDefault();
+
+			var specs = new DetectionWithSpecifications(Id);
+
+			var detectionData = await _unitOfWork.Reposirory<DetectionData>().GetWithSpecificationsByIdAsync(specs);
 			if (detectionData == null)
 			{
 				return BadRequest($"this Id {Id} Not Found");

@@ -17,18 +17,18 @@ namespace SkinCancer.Repositories.Interface
 
         Task<int> CompleteAsync();
 
-        IQueryable<TEntity> Include<TEntity>(
-            params Expression<Func<TEntity, object>>[] includes) where TEntity : class;
+        //IQueryable<TEntity> Include<TEntity>(
+        //    params Expression<Func<TEntity, object>>[] includes) where TEntity : class;
 
 
-        Task<TEntity> Include<TEntity>(int id, 
-            params Expression<Func<TEntity, object>>[] includes) where TEntity : BaseEntity;
-        List<T> SelectItem<T>(Expression<Func<T, bool>> predicate,
-            params Expression<Func<T, object>>[] includes) where T : class;
+        //Task<TEntity> Include<TEntity>(int id, 
+        //    params Expression<Func<TEntity, object>>[] includes) where TEntity : BaseEntity;
+        //List<T> SelectItem<T>(Expression<Func<T, bool>> predicate,
+        //    params Expression<Func<T, object>>[] includes) where T : class;
 
 
-        Task<List<T>> SelectItemAsync<T>(Expression<Func<T, bool>> predicate,
-            params Expression<Func<T, object>>[] includes) where T : class;
+        //Task<List<T>> SelectItemAsync<T>(Expression<Func<T, bool>> predicate,
+        //    params Expression<Func<T, object>>[] includes) where T : class;
 
 
 

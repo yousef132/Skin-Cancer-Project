@@ -10,6 +10,7 @@ using SkinCancer.Entities.Models;
 using SkinCancer.Entities.ModelsDtos.DoctorClinicDtos;
 using SkinCancer.Entities.ModelsDtos.PatientDtos;
 using SkinCancer.Repositories.Interface;
+using SkinCancer.Repositories.Specifications.Clinic;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -99,10 +100,16 @@ namespace SkinCancer.Services.ClinicServices
 
         public async Task<IEnumerable<DoctorClinicDetailsDto>> GetAllClinicsAsync()
         {
-            var clinicsWithSchedules = await _unitOfWork.Include<Clinic>
-                                                        (c => c.Schedules)
-                                                        .Include(c => c.PatientRates)
-                                                        .ToListAsync();
+			var specs = new ClinicWithSpecifications();
+
+			var clinicsWithSchedules = await _unitOfWork.Reposirory<Clinic>().GetWithSpecificationsAllAsync(specs);
+
+
+
+			//var clinicsWithSchedules = await _unitOfWork.Include<Clinic>
+   //                                                     (c => c.Schedules)
+   //                                                     .Include(c => c.PatientRates)
+   //                                                     .ToListAsync();
 
             /*foreach (var item in clinicsWithSchedules)
             {
@@ -116,13 +123,26 @@ namespace SkinCancer.Services.ClinicServices
         {
             try
             {
-                var clinic = await _unitOfWork.Include<Clinic>
-                                   (id, c => c.Schedules, c => c.PatientRates) ??
-                                   throw new ClinicNotFoundException($"Clinic with ID {id} not found.");
+
+                var clinicSpecs = new ClinicSpecifications
+                {
+                    Id = id
+                };
+                var specs = new ClinicWithSpecifications(clinicSpecs);
+
+                var clinic = await _unitOfWork.Reposirory<Clinic>().GetWithSpecificationsByIdAsync(specs);
+
+
+                //var clinic = await _unitOfWork.Include<Clinic>().
+                //                   (id, c => c.Schedules, c => c.PatientRates) ??
+                //                   throw new ClinicNotFoundException($"Clinic with ID {id} not found.");
 
                 //UpdateAverageRate(clinic);
 
-                var dto = _mapper.Map<DoctorClinicDetailsDto>(clinic);
+                if(clinic == null)
+				    throw new ClinicNotFoundException($"Clinic with ID {id} not found.");
+
+					var dto = _mapper.Map<DoctorClinicDetailsDto>(clinic);
                 return dto;
             }
             catch (Exception ex)
@@ -142,11 +162,20 @@ namespace SkinCancer.Services.ClinicServices
 
             try
             {
-                var clinics = await _unitOfWork.Include<Clinic>(c => c.Schedules)
-                                               .Include(c => c.PatientRates)
-                                               .ToListAsync();
 
-                if (clinics == null || !clinics.Any())
+
+				var specs = new ClinicWithSpecifications();
+
+				// get clinic with included PatientRates , Schedules 
+                // where Name contains subn
+				var clinics = await _unitOfWork.Reposirory<Clinic>().GetWithSpecificationsAllAsync(specs);
+
+
+				//var clinics = await _unitOfWork.Include<Clinic>(c => c.Schedules)
+				//.Include(c => c.PatientRates)
+				//.ToListAsync();
+
+				if (clinics == null || !clinics.Any())
                 {
                     throw new Exception("There is No Clinics Yet");
                 }
@@ -172,11 +201,18 @@ namespace SkinCancer.Services.ClinicServices
         {
             try
             {
-                var clinics = await _unitOfWork.Include<Clinic>
-                    (c => c.Schedules)
-                    .Include(c => c.PatientRates)
-                    .OrderByDescending(c => c.Rate)
-                    .ToListAsync();
+                var clinicSpecs = new ClinicSpecifications
+                {
+                    Sort = "Rate"
+                };
+				var specs = new ClinicWithSpecifications(clinicSpecs);
+
+				var clinics = await _unitOfWork.Reposirory<Clinic>().GetWithSpecificationsAllAsync(specs);
+                //var clinics = await _unitOfWork.Include<Clinic>
+                //    (c => c.Schedules)
+                //    .Include(c => c.PatientRates)
+                //    .OrderByDescending(c => c.Rate)
+                //    .ToListAsync();
 
                 var dtos = _mapper.Map<IEnumerable<DoctorClinicDetailsDto>>(clinics);
 
@@ -204,11 +240,22 @@ namespace SkinCancer.Services.ClinicServices
                 if (minPrice > maxPrice)
                     (minPrice, maxPrice) = (maxPrice, minPrice);
 
-                var clinics = await _unitOfWork.Include<Clinic>(c => c.Schedules)
-                                               .Include(c => c.PatientRates)
-                                               .Where(c => c.Price >= minPrice &&
-                                                      c.Price <= maxPrice)
-                                               .ToListAsync();
+
+
+				var clinicSpecs = new ClinicSpecifications
+				{
+					 MinPrice = minPrice,
+                     MaxPrice = maxPrice
+				};
+				var specs = new ClinicWithSpecifications(clinicSpecs);
+
+				var clinics = await _unitOfWork.Reposirory<Clinic>().GetWithSpecificationsAllAsync(specs);
+
+				//var clinics = await _unitOfWork.Include<Clinic>(c => c.Schedules)
+                                               //.Include(c => c.PatientRates)
+                                               //.Where(c => c.Price >= minPrice &&
+                                                      //c.Price <= maxPrice)
+                                               //.ToListAsync();
 
                 if (clinics.Count == 0 || clinics == null)
                 {
@@ -285,9 +332,19 @@ namespace SkinCancer.Services.ClinicServices
 
         public async Task<ProcessResult> PatientRateClinicAsync(PatientRateDto dto)
         {
-            var clinic = await _unitOfWork.Include<Clinic>
-                                   (dto.ClinicId, c => c.Schedules, c => c.PatientRates) ??
-                                   throw new ClinicNotFoundException($"Clinic with ID {dto.ClinicId} not found.");
+
+
+			var clinicSpecs = new ClinicSpecifications
+			{
+				Id = dto.ClinicId
+			};
+			var specs = new ClinicWithSpecifications(clinicSpecs);
+
+			var clinic = await _unitOfWork.Reposirory<Clinic>().GetWithSpecificationsByIdAsync(specs);
+
+			//var clinic = await _unitOfWork.Include<Clinic>
+   //                                (dto.ClinicId, c => c.Schedules, c => c.PatientRates) ??
+   //                                throw new ClinicNotFoundException($"Clinic with ID {dto.ClinicId} not found.");
 
             if (clinic == null)
             {

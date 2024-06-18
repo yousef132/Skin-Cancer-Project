@@ -14,8 +14,8 @@ namespace SkinCancer.Repositories.Interface
     {
         Task<Clinic> GetClinicByNameAsync(string name);
 
-        Task<TEntity> Include<TEntity>(string name, 
-                params Expression<Func<TEntity, object>>[] includes) where TEntity : Clinic;
+        //Task<TEntity> Include<TEntity>(string name, 
+        //        params Expression<Func<TEntity, object>>[] includes) where TEntity : Clinic;
 
         int GetClinicAverageRate(int clinicId);
 
